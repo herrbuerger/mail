@@ -73,7 +73,7 @@ module Mail
         
         if block_given?
           mails.each do |mail|
-            new_message = Mail.new(mail.pop)
+            new_message = Mail.new(mail.pop(''.dup))
             new_message.mark_for_delete = true if options[:delete_after_find]
             yield new_message
             mail.delete if options[:delete_after_find] && new_message.is_marked_for_delete? # Delete if still marked for delete
@@ -81,7 +81,7 @@ module Mail
         else
           emails = []
           mails.each do |mail|
-            emails << Mail.new(mail.pop)
+            emails << Mail.new(mail.pop(''.dup))
             mail.delete if options[:delete_after_find]
           end
           emails.size == 1 && options[:count] == 1 ? emails.first : emails
